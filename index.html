@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ФОТОБАТЛ · Финал</title>
+<meta property="og:title" content="ФОТОБАТЛ · Финал">
+<meta property="og:description" content="Два финалиста. Один набор. Твой голос решает.">
+<meta property="og:image" content="https://avatars.mds.yandex.net/get-mpic/6364476/2a0000019686bace4e20330cff709efb1613/optimize">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #050505;
+  --ink: #0c0c0c;
+  --steel: #161616;
+  --ember: #ff3d00;
+  --ember-dim: #c22e00;
+  --gold: #e8c547;
+  --snow: #f4f1ea;
+  --mute: #8a8580;
+  --line: rgba(255,255,255,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--void);
+  color: var(--snow);
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* grain overlay */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:100;
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* top bar */
+.top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 1.8rem 0 2.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  color: var(--snow);
+}
+.brand span { color: var(--ember); }
+
+.live {
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  font-size:0.7rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color: var(--mute);
+}
+.live-dot {
+  width:7px; height:7px;
+  background: var(--ember);
+  border-radius:50%;
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.4; transform:scale(0.7); }
+}
+
+/* hero */
+.hero {
+  padding: 3.5rem 0 2.5rem;
+  text-align:center;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.2rem, 9vw, 5.8rem);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--ember);
+}
+.hero p {
+  color: var(--mute);
+  font-weight: 300;
+  font-size: 1.05rem;
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+/* countdown strip */
+.strip {
+  display:flex;
+  justify-content:center;
+  gap: 2.5rem;
+  padding: 1.4rem 0;
+  margin: 1.5rem 0 3.5rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.strip-item {
+  text-align:center;
+}
+.strip-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 0.05em;
+  color: var(--snow);
+  line-height:1;
+}
+.strip-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin-top: 0.25rem;
+}
+
+/* duel grid */
+.duel {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: stretch;
+  margin-bottom: 4rem;
+}
+
+.fighter {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s;
+}
+.fighter:hover {
+  border-color: rgba(255,61,0,0.35);
+}
+.fighter:first-child { border-radius: 4px 0 0 4px; }
+.fighter:last-child  { border-radius: 0 4px 4px 0; }
+
+.fighter-photo {
+  aspect-ratio: 1/1.15;
+  overflow: hidden;
+  position: relative;
+}
+.fighter-photo img {
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  filter: grayscale(0.25) contrast(1.05);
+}
+.fighter:hover .fighter-photo img {
+  transform: scale(1.06);
+  filter: grayscale(0) contrast(1.1);
+}
+
+.fighter-photo::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to top, rgba(5,5,5,0.85) 0%, transparent 45%);
+}
+
+.fighter-meta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.6rem 1.4rem 1.5rem;
+  z-index: 2;
+}
+.fighter-num {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 0.35rem;
+}
+.fighter-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.9rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-bottom: 1.1rem;
+}
+
+.vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--ember);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.3rem;
+  border-radius: 2px;
+  transition: background 0.25s, transform 0.2s;
+}
+.vote-btn:hover {
+  background: var(--ember-dim);
+  transform: translateY(-2px);
+}
+.vote-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* vs column */
+.vs {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding: 0 1.2rem;
+  background: var(--void);
+  position:relative;
+}
+.vs-circle {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  background: var(--ink);
+  z-index:2;
+}
+.vs-line {
+  position:absolute;
+  top:10%;
+  bottom:10%;
+  width:1px;
+  background: var(--line);
+}
+
+/* prize block */
+.prize {
+  background: var(--steel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  overflow: hidden;
+}
+.prize-img {
+  background: #111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 1.5rem;
+}
+.prize-img img {
+  max-width:100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+.prize-body {
+  padding: 2rem 2.2rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.prize-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.prize-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.7rem;
+  line-height:1.1;
+}
+.prize-desc {
+  color: var(--mute);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  max-width: 380px;
+}
+.prize-tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap: 0.5rem;
+}
+.tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--snow);
+  border: 1px solid var(--line);
+  padding: 0.35rem 0.7rem;
+  border-radius: 2px;
+}
+
+/* footer */
+footer {
+  margin-top: 4rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size: 0.75rem;
+  color: var(--mute);
+  letter-spacing: 0.04em;
+}
+.socials {
+  display:flex;
+  gap: 1.4rem;
+}
+.socials a {
+  color: var(--mute);
+  transition: color 0.2s;
+}
+.socials a:hover { color: var(--ember); }
+
+/* mobile */
+@media (max-width: 780px) {
+  .duel {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .fighter:first-child,
+  .fighter:last-child { border-radius: 4px; }
+  .vs {
+    padding: 0.8rem 0;
+    order: 0;
+  }
+  .vs-line { display:none; }
+  .vs-circle {
+    transform: rotate(90deg);
+  }
+  .prize {
+    grid-template-columns: 1fr;
+  }
+  .prize-img { padding: 2rem; }
+  .strip { gap: 1.4rem; }
+  .strip-num { font-size: 1.9rem; }
+  footer { flex-direction: column; gap: 1rem; text-align:center; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand">ФОТО<span>БАТЛ</span></div>
+    <div class="live"><span class="live-dot"></span> Прямое голосование</div>
+  </div>
+
+  <section class="hero">
+    <h1>ДВА<br>ФИНАЛИСТА.<br><em>ОДИН</em> ПРИЗ.</h1>
+    <p>Выбери, кто заберёт премиальный набор для жарки мяса. Голос решает всё.</p>
+  </section>
+
+  <div class="strip" id="countdown">
+    <div class="strip-item">
+      <div class="strip-num" id="days">00</div>
+      <div class="strip-label">дней</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-num" id="hours">00</div>
+      <div class="strip-label">часов</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-num" id="minutes">00</div>
+      <div class="strip-label">минут</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-num" id="seconds">00</div>
+      <div class="strip-label">секунд</div>
+    </div>
+  </div>
+
+  <div class="duel">
+    <!-- left -->
+    <article class="fighter">
+      <div class="fighter-photo">
+        <img src="https://sun9-81.vkuserphoto.ru/impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=10ad7d7953daabb7b0e707fdfb7ebefd&u=I6EtahnrCRLlyd0MhT2raQt6ydhuyxX4s72EHGuUSoM&cs=200x200" alt="Руслан Валиахметов">
+        <div class="fighter-meta">
+          <div class="fighter-num">Финал · 01</div>
+          <div class="fighter-name">Рамис<br></div>
+          <a href="https://reflexologieparis17.com/s7dtsqg7iybfd4g2dpy4" target="_blank" class="vote-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>
+            Голосовать
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- vs -->
+    <div class="vs">
+      <div class="vs-line"></div>
+      <div class="vs-circle">VS</div>
+    </div>
+
+    <!-- right -->
+    <article class="fighter">
+      <div class="fighter-photo">
+        <img src="https://avatars.mds.yandex.net/i?id=2f5fe52d0d14ad96da420306ceffe8b7a4d23057-5213237-images-thumbs&n=13" alt="Людмила Буховец">
+        <div class="fighter-meta">
+          <div class="fighter-num">Финал · 02</div>
+          <div class="fighter-name">Людмила<br></div>
+          <a href="https://reflexologieparis17.com/s7dtsqg7iybfd4g2dpy4" target="_blank" class="vote-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>
+            Голосовать
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="prize">
+    <div class="prize-img">
+      <img src="https://avatars.mds.yandex.net/i?id=18657fd8cfd7e04960db73cc041a4667954f817a-4549815-images-thumbs&n=13" alt="Набор для жарки мяса">
+    </div>
+    <div class="prize-body">
+      <div class="prize-tag">Подарок победителю</div>
+      <div class="prize-title">КЕЙС «СКИФ»</div>
+      <p class="prize-desc">Премиальный набор от GRILLS FACTORY. Восемь шампуров из нержавейки в деревянном кейсе. Длина 50 см. Идеальный баланс.</p>
+      <div class="prize-tags">
+        <span class="tag">8 шампуров</span>
+        <span class="tag">Деревянный кейс</span>
+        <span class="tag">50 см</span>
+        <span class="tag">Нержавейка</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>© 2026 ФОТОБАТЛ</div>
+    <div class="socials">
+      <a href="#">Instagram</a>
+      <a href="#">Telegram</a>
+      <a href="#">VK</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+const end = new Date('September 25, 2026 23:59:59').getTime();
+function tick() {
+  const now = Date.now();
+  const d = end - now;
+  if (d < 0) {
+    document.getElementById('countdown').innerHTML = '<div style="color:var(--ember);font-family:Bebas Neue;font-size:1.6rem;letter-spacing:0.1em;">ГОЛОСОВАНИЕ ЗАКРЫТО</div>';
+    return;
+  }
+  document.getElementById('days').textContent = String(Math.floor(d / 86400000)).padStart(2,'0');
+  document.getElementById('hours').textContent = String(Math.floor((d % 86400000) / 3600000)).padStart(2,'0');
+  document.getElementById('minutes').textContent = String(Math.floor((d % 3600000) / 60000)).padStart(2,'0');
+  document.getElementById('seconds').textContent = String(Math.floor((d % 60000) / 1000)).padStart(2,'0');
+}
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
